@@ -18,5 +18,6 @@ RUN chmod 755 /app/mvnw
 RUN ./mvnw dependency:go-offline -B
 RUN ./mvnw package -DskipTests
 
-ENTRYPOINT ["java","-jar","./target/product-service-0.0.1-SNAPSHOT.jar"]
+# ENTRYPOINT ["java","-jar","./target/product-service-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "spring-boot:run"]
 # ENTRYPOINT ["./mvnw", "exec:java", "-Dexec.mainClass=\"com.iontech.product-service.ProductServiceApplication\""]
