@@ -27,7 +27,7 @@ services:
   #service 2: definition of your spring-boot app 
   product-service:                        #it is just a name, which will be used only in this file.
     image: product-service               #name of the image after dockerfile executes
-    container_name: product-service-app  #name of the container created from docker image
+    container_name: mini-spring-app  #name of the container created from docker image
     build:
       context: .                          #docker file path (. means root directory)
       dockerfile: Dockerfile              #docker file name
