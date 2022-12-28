@@ -1,4 +1,4 @@
-package com.iontech.orderservice.orderservice;
+package com.iontech.orderservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +8,7 @@ public class OrderServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OrderServiceApplication.class, args);
+        System.out.println("Order service is running ...");
 	}
 
 }
