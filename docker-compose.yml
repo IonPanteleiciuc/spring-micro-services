@@ -23,7 +23,7 @@ services:
       context: order-service                #docker file path (. means root directory)
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8079:8079"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgre_order:5432/postgres_order
       - SPRING_DATASOURCE_USERNAME=root_ion
@@ -63,7 +63,7 @@ services:
       context: product-service
       dockerfile: Dockerfile
     ports:
-      - "8077:8077"
+      - "8080:8080"
     restart: unless-stopped
     depends_on:
       - mongo
