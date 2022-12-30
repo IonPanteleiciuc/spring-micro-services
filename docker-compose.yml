@@ -3,50 +3,54 @@ version: '3.1'
 
 services:
 
+##############  PRODUCT SERVICE ##################
   mongo:
     image: mongo
     container_name: mongoDB
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: products
+      MONGO_INITDB_ROOT_USERNAME: root_ion
+      MONGO_INITDB_ROOT_PASSWORD: secret
     ports:
-      - 27017:27017
+      - "30007:27017"
 
   mongo-express:
     image: mongo-express
     container_name: mongoDB_express
     restart: unless-stopped
     ports:
-      - 8081:8081
+      - 6082:8081
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      - ME_CONFIG_MONGODB_SERVER=mongoDB
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root_ion
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
   
-  #service 2: definition of your spring-boot app 
-  product-service:                        #it is just a name, which will be used only in this file.
-    image: product-service               #name of the image after dockerfile executes
-    container_name: product-service-container  #name of the container created from docker image
+  product-service:
+    image: product-service
+    container_name: product-service-container
     build:
-      context: product-service                #docker file path (. means root directory)
-      dockerfile: Dockerfile              #docker file name
+      context: product-service
+      dockerfile: Dockerfile
     ports:
-      - "8079:8079"                       #docker containter port with your os port
-    restart: unless-stopped  
-    depends_on:                           #define dependencies of this app
-      - mongo                             #dependency name (which is defined with this name 'db' in this file earlier)
-  
-  PostgreSQL:
+      - "8079:8079"
+    restart: unless-stopped
+    depends_on:
+      - mongo
+##################################################
+
+
+###############  ORDER SERVICE ###################
+  postgre_order:
     image: postgres
-    container_name: postresql_container
+    container_name: postresql_order_container
     restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=postgres_order
+      - POSTGRES_USER=root_ion
+      - POSTGRES_PASSWORD=secret_order
 
   order-service:
     image: order-service
@@ -58,9 +62,41 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgre_order:5432/postgres_order
+      - SPRING_DATASOURCE_USERNAME=root_ion
+      - SPRING_DATASOURCE_PASSWORD=secret_order
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
-      - PostgreSQL
+      - postgre_order
+##################################################
+
+
+#############  INVENTORY SERVICE #################
+  postgre_inventory:
+    image: postgres
+    container_name: postresql_inventory_container
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=inventory
+      - POSTGRES_USER=root_ion
+      - POSTGRES_PASSWORD=secret_inventory
+
+  inventory-service:
+    image: inventory-service
+    container_name: inventory-service-container
+    restart: unless-stopped
+    build:
+      context: inventory-service
+      dockerfile: Dockerfile
+    ports:
+      - "8078:8078"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgre_inventory:5432/inventory
+      - SPRING_DATASOURCE_USERNAME=root_ion
+      - SPRING_DATASOURCE_PASSWORD=secret_inventory
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - postgre_inventory
+##################################################

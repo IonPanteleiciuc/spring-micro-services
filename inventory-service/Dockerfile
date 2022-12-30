@@ -1,4 +1,5 @@
 FROM openjdk:17
+EXPOSE 8080
 
 # Copy maven executable to the image
 COPY mvnw .
@@ -15,4 +16,4 @@ RUN ./mvnw install -DskipTests
 # RUN ./mvnw dependency:go-offline -B
 # RUN ./mvnw package -DskipTests
 
-ENTRYPOINT ["java","-jar","./target/order-service-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","./target/inventory-service-0.0.1-SNAPSHOT.jar"]
