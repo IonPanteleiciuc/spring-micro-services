@@ -3,6 +3,36 @@ version: '3.1'
 
 services:
 
+###############  ORDER SERVICE ###################
+  postgre_order:
+    image: postgres
+    container_name: postresql_order_container
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres_order
+      - POSTGRES_USER=root_ion
+      - POSTGRES_PASSWORD=secret_order
+
+  order-service:
+    image: order-service
+    container_name: order-service-container
+    restart: unless-stopped
+    build:
+      context: order-service                #docker file path (. means root directory)
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgre_order:5432/postgres_order
+      - SPRING_DATASOURCE_USERNAME=root_ion
+      - SPRING_DATASOURCE_PASSWORD=secret_order
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - postgre_order
+##################################################
+
 ##############  PRODUCT SERVICE ##################
   mongo:
     image: mongo
@@ -39,36 +69,6 @@ services:
       - mongo
 ##################################################
 
-
-###############  ORDER SERVICE ###################
-  postgre_order:
-    image: postgres
-    container_name: postresql_order_container
-    restart: unless-stopped
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=postgres_order
-      - POSTGRES_USER=root_ion
-      - POSTGRES_PASSWORD=secret_order
-
-  order-service:
-    image: order-service
-    container_name: order-service-container
-    restart: unless-stopped
-    build:
-      context: order-service                #docker file path (. means root directory)
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgre_order:5432/postgres_order
-      - SPRING_DATASOURCE_USERNAME=root_ion
-      - SPRING_DATASOURCE_PASSWORD=secret_order
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    depends_on:
-      - postgre_order
-##################################################
 
 
 #############  INVENTORY SERVICE #################
