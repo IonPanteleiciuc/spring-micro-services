@@ -2,6 +2,11 @@ package com.iontech.inventoryservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+
+import com.iontech.inventoryservice.model.Inventory;
+import com.iontech.inventoryservice.repository.InventoryRepository;
 
 @SpringBootApplication
 public class InventoryServiceApplication {
@@ -10,5 +15,21 @@ public class InventoryServiceApplication {
 		SpringApplication.run(InventoryServiceApplication.class, args);
         System.out.println("Inventory service is running ...");
 	}
+
+    @Bean
+    public CommandLineRunner loadData(InventoryRepository inventoryRepository) {
+        return args -> {
+            Inventory inventory = new Inventory();
+            inventory.setSkuCode("iphone_13");
+            inventory.setQuantity(4);
+
+            Inventory inventory1 = new Inventory();
+            inventory1.setSkuCode("iphone_13_red");
+            inventory1.setQuantity(0);
+
+            inventoryRepository.save(inventory);
+            inventoryRepository.save(inventory1);
+        };
+    }
 
 }

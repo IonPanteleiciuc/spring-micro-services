@@ -21,9 +21,9 @@ public class InventoryController {
     private final InventoryService inventoryService;
     private final InventoryRepository inventoryRepository;
 
-    @GetMapping
+    @GetMapping("/{sku-code}")
     @ResponseStatus(HttpStatus.OK)
-    public List<InventoryResponse> isInStock(@RequestParam List<String> skuCode) {
+    public Boolean isInStock(@PathVariable("ski-code") String skuCode) {
         return inventoryService.isInStock(skuCode);
     }
 
@@ -36,6 +36,6 @@ public class InventoryController {
     @GetMapping("test")
     public String hello(){
         // return inventoryRepository.findAll();
-        return "Hello there ! It works !";
+        return "Hello there ! Inventory service !";
     }
 }

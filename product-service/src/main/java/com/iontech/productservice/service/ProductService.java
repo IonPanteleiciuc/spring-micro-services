@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.iontech.productservice.dto.ProductRequest;
@@ -21,7 +22,8 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public String helloWorld() {
-        return "Hello there !";
+        this.addInInventory();
+        return "Hello there ! Product service";
     }
 
     public void createProduct(ProductRequest productRequest) {
@@ -50,6 +52,15 @@ public class ProductService {
 
     public Product getProduct(String id) {
         return productRepository.findById(id).get();
+    }
+
+    private void addInInventory() {
+        final String uri = "http://164.68.113.115:8078/api/inventory/test";
+
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+
+        System.out.println(result);
     }
 
 }
