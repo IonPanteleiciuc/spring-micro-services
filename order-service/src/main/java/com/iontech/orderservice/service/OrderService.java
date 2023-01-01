@@ -15,27 +15,39 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient webClient;
 
-    public void placeOrder(Order order) {
+    public String placeOrder(Order order) {
 
         final String skuCode = order.getSkuCode();
 
         // Make a call to the inventory to check if product is in stock
         Boolean result = webClient.get()
-            .uri("http://localhost:8078/api/inventory/" + skuCode.toString())
+            .uri("http://164.68.113.115:8078/api/inventory/" + skuCode)
             .retrieve()
             .bodyToMono(Boolean.class)
             .block();
 
+
         if(result){
             orderRepository.save(order);
+            return "Yout order has been passed";
         } else {
-            throw new IllegalArgumentException("Product not in stock ! Try again later");
+            return "Product not in stock ! Try again later";
         }
 
     }
 
     public List<Order> getOrders(){
         return this.orderRepository.findAll();
+    }
+
+    public String callInventory(){
+        String result = webClient.get()
+            .uri("http://164.68.113.115:8078/api/inventory/test")
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+
+        return result;
     }
 
 }

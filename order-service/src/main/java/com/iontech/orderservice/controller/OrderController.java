@@ -19,8 +19,9 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String placeOrder(@RequestBody Order order){
-        orderService.placeOrder(order);
-        return "Yout order has been passed";
+        String result = orderService.placeOrder(order);
+
+        return result;
     }
 
     @GetMapping("test")
@@ -32,4 +33,10 @@ public class OrderController {
     public List<Order> getOrders(){
         return orderService.getOrders();
     }
+    @GetMapping("inventory")
+    public String callInventory(){
+        return orderService.callInventory();
+    }
+
+
 }
