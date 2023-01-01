@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.iontech.orderservice.dto.OrderLineItemsDto;
 import com.iontech.orderservice.dto.OrderRequest;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    
+    private final WebClient webClient;
 
     public void placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
@@ -31,13 +32,22 @@ public class OrderService {
         order.setOrderLineItemsList(orderLineItems);
 
         // Make a call to the inventory to check if product is in stock
+        Boolean result = webClient.get()
+            .uri("http://localhost:8078/api/inventory")
+            .retrieve()
+            .bodyToMono(Boolean.class)
+            .block();
 
-        orderRepository.save(order);
 
-        
+        if(result){
+            orderRepository.save(order);
+        } else {
+            throw new IllegalArgumentException("Product not in stock ! Try again later");
+        }
+
     }
 
-    public List<Order> getOrders(){
+    public List<Order> getOrders() {
         return orderRepository.findAll();
     }
 
