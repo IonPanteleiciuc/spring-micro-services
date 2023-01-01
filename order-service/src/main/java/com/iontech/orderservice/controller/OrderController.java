@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import com.iontech.orderservice.dto.OrderRequest;
 import com.iontech.orderservice.model.Order;
 // import com.iontech.orderservice.dto.OrderRequest;
 import com.iontech.orderservice.service.OrderService;
@@ -19,8 +18,8 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String placeOrder(@RequestBody OrderRequest orderRequest){
-        orderService.placeOrder(orderRequest);
+    public String placeOrder(@RequestBody Order order){
+        orderService.placeOrder(order);
         return "Yout order has been passed";
     }
 

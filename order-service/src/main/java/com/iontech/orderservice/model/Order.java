@@ -1,6 +1,6 @@
 package com.iontech.orderservice.model;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String orderNumber;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderLineItems> orderLineItemsList;
+    private String skuCode;
+    private BigDecimal price;
+    private Integer quantity;
 }
