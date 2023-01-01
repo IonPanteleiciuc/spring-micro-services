@@ -1,6 +1,5 @@
 package com.iontech.inventoryservice.service;
 
-import com.iontech.inventoryservice.dto.InventoryResponse;
 import com.iontech.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

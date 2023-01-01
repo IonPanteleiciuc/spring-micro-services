@@ -1,6 +1,5 @@
 package com.iontech.inventoryservice.controller;
 
-import com.iontech.inventoryservice.dto.InventoryResponse;
 import com.iontech.inventoryservice.model.Inventory;
 import com.iontech.inventoryservice.repository.InventoryRepository;
 import com.iontech.inventoryservice.service.InventoryService;
