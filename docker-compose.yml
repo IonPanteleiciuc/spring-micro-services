@@ -31,6 +31,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - postgre_order
+      - discovery-server
 ##################################################
 
 ##############  PRODUCT SERVICE ##################
@@ -67,6 +68,7 @@ services:
     restart: unless-stopped
     depends_on:
       - mongo
+      - discovery-server
 ##################################################
 
 
@@ -99,4 +101,16 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - postgre_inventory
+      - discovery-server
+##################################################
+
+
+
+##############  DISCOVERY SERVER #################
+  discovery-server:
+    image: eureka-discovery
+    container_name: eureka-discovery-container
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
 ##################################################

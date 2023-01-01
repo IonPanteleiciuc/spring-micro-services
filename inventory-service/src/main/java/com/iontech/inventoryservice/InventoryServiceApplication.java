@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Bean;
 import com.iontech.inventoryservice.model.Inventory;
 import com.iontech.inventoryservice.repository.InventoryRepository;
 
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
 @SpringBootApplication
+@EnableDiscoveryClient
 public class InventoryServiceApplication {
 
 	public static void main(String[] args) {
