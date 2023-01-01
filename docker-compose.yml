@@ -20,7 +20,7 @@ services:
     container_name: order-service-container
     restart: unless-stopped
     build:
-      context: order-service                #docker file path (. means root directory)
+      context: order-service
       dockerfile: Dockerfile
     ports:
       - "8079:8079"
@@ -111,6 +111,9 @@ services:
     image: eureka-discovery
     container_name: eureka-discovery-container
     restart: unless-stopped
+    build:
+      context: discovery-server
+      dockerfile: Dockerfile
     ports:
       - "8761:8761"
 ##################################################
