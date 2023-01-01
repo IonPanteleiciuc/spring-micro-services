@@ -15,4 +15,4 @@ RUN ./mvnw install -DskipTests
 # RUN ./mvnw dependency:go-offline -B
 # RUN ./mvnw package -DskipTests
 
-ENTRYPOINT ["java","-jar","./target/product-service-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","./target/discovery-server-0.0.1-SNAPSHOT.jar"]
