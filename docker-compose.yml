@@ -117,3 +117,15 @@ services:
     ports:
       - "8761:8761"
 ##################################################
+
+#################  API GATEWAY  ##################
+  api-gateway:
+    image: api-gateway
+    container_name: api-gateway-container
+    restart: unless-stopped
+    build:
+      context: api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+##################################################
