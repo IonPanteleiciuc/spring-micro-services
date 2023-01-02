@@ -22,7 +22,7 @@ public class OrderService {
 
         // Make a call to the inventory to check if product is in stock
         Boolean result = webClient.get()
-            .uri("http://164.68.113.115:8078/api/inventory/" + skuCode)
+            .uri("http://localhost:8078/api/inventory/" + skuCode)
             // .uri("http://localhost:8078/api/inventory/" + skuCode)
             .retrieve()
             .bodyToMono(Boolean.class)
