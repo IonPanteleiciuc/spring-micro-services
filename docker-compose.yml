@@ -115,7 +115,7 @@ services:
       context: discovery-server
       dockerfile: Dockerfile
     ports:
-      - "8761:8761"
+      - "8760:8760"
 ##################################################
 
 #################  API GATEWAY  ##################
@@ -128,4 +128,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
+##################################################
+
+##################  FRONT-END  ###################
+  front:
+    image: front
+    container_name: front-container
+    restart: unless-stopped
+    build:
+      context: front-end
+      dockerfile: Dockerfile
+    ports:
+      - "4000:8080"
 ##################################################
